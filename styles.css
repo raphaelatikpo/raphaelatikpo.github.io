@@ -110,7 +110,26 @@ img {
 .logo:hover {
     color: var(--accent);
 }
-
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Adjust this for the spacing you want */
+}
+.nav-resume-btn {
+    background-color: var(--primary); /* Uses your red theme color */
+    color: var(--white) !important;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+.nav-resume-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 .nav-menu {
     display: flex;
     list-style: none;
