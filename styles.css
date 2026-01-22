@@ -118,7 +118,7 @@ img {
 .nav-resume-btn {
     background-color: var(--primary); /* Uses your red theme color */
     color: var(--white) !important;
-    padding: 0.6rem 1.2rem;
+    padding: 0.5rem 1rem;
     border-radius: 5px;
     text-decoration: none;
     font-size: 0.9rem;
