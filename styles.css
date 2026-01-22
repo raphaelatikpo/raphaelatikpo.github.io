@@ -101,34 +101,38 @@ img {
 }
 
 .logo {
-    font-family: var(--font-headline);
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--primary);
+    font-family: var(--font-headline); /* */
+    font-size: 1.75rem; /* */
+    font-weight: 700; /* */
+    color: var(--primary); /* */
+    text-decoration: none;
+    line-height: 1; /* Removes extra space above/below text */
+    transition: 0.3s;
 }
 
 .logo:hover {
-    color: var(--accent);
+    color: #8A244B !important; /* Your specific color request */
 }
-.brand-wrapper {
+.brand-group {
     display: flex;
     align-items: center;
     gap: 1.5rem; /* Adjust this for the spacing you want */
 }
 .nav-resume-btn {
-    background-color: var(--primary); /* Uses your red theme color */
-    color: var(--white) !important;
-    padding: 0.5rem 1rem;
+    background-color: var(--primary); /* */
+    color: var(--white) !important; /* */
+    padding: 0.5rem 1.2rem; /* Adjusted padding for better height matching */
     border-radius: 5px;
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
+    display: inline-flex;
+    align-items: center;
     transition: 0.3s ease;
 }
 .nav-resume-btn:hover {
-    opacity: 0.9;
+    background-color: #8A244B !important; /* Your specific color request */
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 .nav-menu {
     display: flex;
