@@ -101,38 +101,39 @@ img {
 }
 
 .logo {
-    font-family: var(--font-headline); /* */
-    font-size: 1.75rem; /* */
-    font-weight: 700; /* */
-    color: var(--primary); /* */
+    font-family: var(--font-headline);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary);
     text-decoration: none;
-    line-height: 1; /* Removes extra space above/below text */
+    line-height: 1;      /* Crucial: removes extra vertical space */
+    display: flex;
+    align-items: center; /* Centers the text vertically within the box */
     transition: 0.3s;
 }
 
 .logo:hover {
-    color: #8A244B !important; /* Your specific color request */
+    color: #8A244B !important;
 }
 .brand-group {
     display: flex;
-    align-items: center;
-    gap: 1.5rem; /* Adjust this for the spacing you want */
+    align-items: stretch;
+    gap: 1.2rem; /* Adjust this for the spacing you want */
 }
 .nav-resume-btn {
-    background-color: var(--primary); /* */
-    color: var(--white) !important; /* */
-    padding: 0.5rem 1.2rem; /* Adjusted padding for better height matching */
+    background-color: var(--primary);
+    color: var(--white) !important;
+    padding: 0 1.2rem;    /* 0 top/bottom because 'stretch' handles height */
     border-radius: 5px;
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
-    display: inline-flex;
+    display: flex;        /* Center the text inside the button */
     align-items: center;
     transition: 0.3s ease;
 }
 .nav-resume-btn:hover {
-    background-color: #8A244B !important; /* Your specific color request */
-    transform: translateY(-1px);
+    background-color: #8A244B !important;
 }
 .nav-menu {
     display: flex;
