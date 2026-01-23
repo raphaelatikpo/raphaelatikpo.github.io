@@ -1490,7 +1490,7 @@ section {
     right: 0;
     top: 60px;
 
-    width: min(100px, 80vw) !important;
+    width: min(180px, 85vw) !important;
     background: var(--white);
     padding: 1rem;
     margin: 0;
@@ -1521,8 +1521,10 @@ section {
   flex-direction: column;
   gap: 0.4rem;
 }
-   @media (min-width: 769px) {
-  input#menu-toggle {
+}
+   /* Hide checkbox on desktop */
+@media (min-width: 769px) {
+  #menu-toggle {
     display: none !important;
   }
 }
