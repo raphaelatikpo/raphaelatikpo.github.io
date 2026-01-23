@@ -1455,61 +1455,43 @@ section {
 }
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
-    /* 1. Reduce Logo Size */
-    .logo {
-        font-size: 1.4rem; /* Smaller for mobile */
-    }
-
-    /* 2. Fix Resume Button (No wrapping) */
-    .nav-resume-btn {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.8rem;
-        white-space: nowrap; /* Prevents text from wrapping into 2 lines */
-    }
-
-    /* 3. Create the Hamburger Menu (3 lines) */
-    .hamburger {
+    /* 1. Ensure container is the anchor for the menu */
+    .nav-container {
+        position: relative;
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* 2. Style the Menu to appear on the right */
+    .nav-menu {
+        display: none; /* Keep hidden until clicked */
         flex-direction: column;
-        gap: 5px;
-        cursor: pointer;
-    }
-
-    .hamburger span {
-        width: 25px;
-        height: 3px;
-        background-color: var(--primary);
-        border-radius: 2px;
-    }
-
-    /* Hide the actual checkbox */
-    #menu-toggle {
-        display: none;
-    }
-
-    /* Hide the nav menu by default on mobile */
-   .nav-menu {
-        display: none !important; 
         position: absolute;
-        top: 100%; /* Sits right below the navbar */
-        left: 0;
-        width: 100%;
+        top: 100%;       /* Directly below the navbar */
+        right: 0;        /* Align to the right edge */
+        width: 200px;    /* Give it a set width so it doesn't take the whole screen */
         background-color: var(--white);
-        flex-direction: column;
-        padding: 20px 0;
-        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-        z-index: 999;
+        padding: 1rem;
+        box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+        z-index: 1000;
+        border-radius: 0 0 0 8px; /* Rounded corner on bottom-left */
     }
 
-    /* Show the menu when the hamburger (checkbox) is clicked */
-   #menu-toggle:checked ~ .nav-menu {
+    /* 3. The Trigger to show menu */
+    #menu-toggle:checked ~ .nav-menu {
         display: flex !important;
     }
-}
 
-/* Hide hamburger on Desktop */
-@media (min-width: 769px) {
-    .hamburger, #menu-toggle {
-        display: none;
+    /* 4. Center menu items and add spacing */
+    .nav-menu li {
+        margin: 10px 0;
+        text-align: right; /* Align text to match the right-side menu */
+    }
+
+    /* 5. Keep the Resume button from wrapping */
+    .nav-resume-btn {
+        white-space: nowrap !important;
+        padding: 0.35rem 0.8rem; /* Tighten the height as requested */
     }
 }
