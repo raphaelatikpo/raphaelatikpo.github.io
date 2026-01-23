@@ -1459,48 +1459,49 @@ section {
     }
 }
 /* Mobile Responsive Styles */
-@media (max-width: 768px) {
-    /* The Navbar stays fixed at the top */
-    .navbar {
-        position: relative; 
-    }
 
-    /* The container holds the layout */
+@media (max-width: 768px) {
+    /* 1. Ensure the container is the relative anchor for the dropdown */
     .nav-container {
+        position: relative;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    /* THE FIX: Floating Menu */
+    /* 2. Style the Logo & Resume Button sizing for mobile */
+    .logo {
+        font-size: 1.4rem; /* Slightly smaller for mobile space */
+    }
+
+    .nav-resume-btn {
+        white-space: nowrap !important;
+        padding: 0.35rem 0.8rem !important; /* Forces the height to match logo */
+        font-size: 0.8rem;
+    }
+
+    /* 3. The Floating Menu (Removes the white gap) */
     .nav-menu {
-        display: none; 
-        position: absolute;
-        top: 100%;       /* Sits exactly under the bar */
-        right: 0;        /* Aligns to the right */
-        width: 180px;    /* Smaller width so it doesn't push content */
+        display: none;      /* Hidden by default */
+        position: absolute; /* Floats OVER the content */
+        top: 100%;          /* Directly below the navbar */
+        right: 0;           /* Aligned to the right edge */
+        width: 180px;       /* Compact width */
         background-color: #ffffff;
         flex-direction: column;
         padding: 1rem;
         box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
         z-index: 1000;
-        margin: 0;       /* Removes extra space */
+        margin-top: 5px;    /* Tiny gap between bar and menu */
     }
 
-    /* Shows menu when hamburger is clicked */
+    /* 4. Trigger logic for the sibling menu */
     #menu-toggle:checked ~ .nav-menu {
         display: flex !important;
     }
 
-    /* Spacing for links in the dropdown */
     .nav-menu li {
         margin: 10px 0;
         text-align: right;
-    }
-
-    /* Keep Resume Button compact */
-    .nav-resume-btn {
-        white-space: nowrap !important;
-        padding: 0.3rem 0.7rem !important; /* Forces smaller height */
     }
 }
