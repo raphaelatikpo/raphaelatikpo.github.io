@@ -1490,19 +1490,22 @@ section {
     border-radius: 2px;
   }
 
-  /* Hide the nav menu by default on mobile */
-  .nav-menu {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: var(--white);
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-    z-index: 1001;
-  }
+  /* Dropdown menu under hamburger */
+.nav-menu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: calc(100% + 10px);   /* a little space below the nav bar */
+  right: 0;                 /* align to hamburger side */
+  width: min(220px, 85vw);  /* compact width */
+  background: var(--white);
+  text-align: right;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  z-index: 1001;
+  gap: 0.75rem;
+}
 
   /* Hide checkbox visually but keep it functional */
   #menu-toggle{
@@ -1522,6 +1525,11 @@ section {
   #menu-toggle:checked ~ .nav-menu{
     display: flex;
   }
+ .nav-menu {
+     margin: 0;
+     list-style: none;
+   }
+
 }
 
 /* Hide hamburger on Desktop */
