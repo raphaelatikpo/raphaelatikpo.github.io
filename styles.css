@@ -1386,6 +1386,11 @@ section {
         grid-template-columns: 1fr;
     }
 }
+#menu-toggle {
+    display: none !important;
+    visibility: hidden;
+    position: absolute;
+}
 
 @media (max-width: 768px) {
     :root {
