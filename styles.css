@@ -1444,17 +1444,23 @@ section {
 
     /* Restore visibility of the 3 lines (Hamburger) */
     .hamburger {
-        display: flex !important;
-        flex-direction: column;
-        gap: 5px;
-        cursor: pointer;
+          display: flex !important;
+          flex-direction: column;
+          justify-content: center;
+          gap: 5px;
+          cursor: pointer;
+          width: 30px;  /* Defined width */
+          height: 25px; /* Defined height */
+          z-index: 1200;
     }
 
     .hamburger span {
-        width: 25px;
-        height: 3px;
-        background-color: var(--primary);
-        border-radius: 3px;
+          display: block !important; /* Forces the line to exist */
+          width: 100%;               /* Takes full width of the 30px parent */
+          height: 3px;               /* Thickness of the line */
+          background-color: #dd2d4a; /* Using your --primary raspberry color */
+          border-radius: 3px;
+          transition: 0.3s;
     }
 
     /* Mobile Typography Adjustments */
