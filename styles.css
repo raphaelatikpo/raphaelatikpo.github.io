@@ -1521,7 +1521,9 @@ section {
   flex-direction: column;
   gap: 0.4rem;
 }
-
-   #menu-toggle {
-  display: none;
+   @media (min-width: 769px) {
+  input#menu-toggle {
+    display: none !important;
+  }
 }
+
