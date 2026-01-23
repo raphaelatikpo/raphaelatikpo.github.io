@@ -1490,7 +1490,7 @@ section {
     right: 0;
     top: 60px;
 
-    width: 180px;
+    width: min(100px, 80vw) !important;
     background: var(--white);
     padding: 1rem;
     margin: 0;
