@@ -1454,33 +1454,26 @@ section {
         padding: 0 1.5rem;
     }
 }
-/* Mobile Responsive Styles */
+
 @media (max-width: 768px) {
 
-  /* Make dropdown position relative to the nav container */
-  .nav-container {
-    position: relative;
-  }
+  .nav-container { position: relative; }
 
-  /* 1. Reduce Logo Size */
-  .logo {
-    font-size: 1.4rem;
-  }
+  .logo { font-size: 1.4rem; }
 
-  /* 2. Fix Resume Button (No wrapping) */
   .nav-resume-btn {
     font-size: 0.8rem;
     padding: 0.4rem 0.8rem;
     white-space: nowrap;
   }
 
-  /* 3. Create the Hamburger Menu (3 lines) */
   .hamburger {
     display: flex;
     flex-direction: column;
     gap: 5px;
     cursor: pointer;
     z-index: 1002;
+    position: relative;
   }
 
   .hamburger span {
@@ -1490,24 +1483,25 @@ section {
     border-radius: 2px;
   }
 
-  /* Dropdown menu under hamburger */
-.nav-menu {
-  display: none;
-  flex-direction: column;
-  position: absolute;
-  top: calc(100% + 10px);   /* a little space below the nav bar */
-  right: 0;                 /* align to hamburger side */
-  width: min(220px, 85vw);  /* compact width */
-  background: var(--white);
-  text-align: right;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  z-index: 1001;
-  gap: 0.75rem;
-}
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: 60px;
 
-  /* Hide checkbox visually but keep it functional */
+    width: min(220px, 85vw) !important;
+    background: var(--white);
+    padding: 1rem;
+    margin: 0;
+    list-style: none;
+
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    z-index: 1001;
+    gap: 0.75rem;
+  }
+
   #menu-toggle{
     position: absolute;
     width: 1px;
@@ -1521,20 +1515,8 @@ section {
     opacity: 0;
   }
 
-  /* Show the menu when the hamburger is clicked */
   #menu-toggle:checked ~ .nav-menu{
     display: flex;
   }
- .nav-menu {
-     margin: 0;
-     list-style: none;
-   }
-
 }
 
-/* Hide hamburger on Desktop */
-@media (min-width: 769px) {
-    .hamburger, #menu-toggle {
-        display: none;
-    }
-}
