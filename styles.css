@@ -105,30 +105,36 @@ img {
     font-size: 1.75rem;
     font-weight: 700;
     color: var(--primary);
+    text-decoration: none;
+    line-height: 1.1;    /* Tightens the text box to match the button */
+    display: inline-block;
+    transition: 0.3s;
 }
 
 .logo:hover {
-    color: var(--accent);
+    color: #8A244B !important;
 }
-.brand-wrapper {
+.brand-group {
     display: flex;
-    align-items: center;
-    gap: 1.5rem; /* Adjust this for the spacing you want */
+    align-items: center; 
+    gap: 1.5rem;          /* Increases space between RNA and the button */
 }
 .nav-resume-btn {
-    background-color: var(--primary); /* Uses your red theme color */
+    background-color: var(--primary);
     color: var(--white) !important;
-    padding: 0.6rem 1.2rem;
+    padding: 0.4rem 1.2rem; /* Reduced first number = smaller height */
     border-radius: 5px;
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;    /* Ensures it doesn't stretch taller than needed */
     transition: 0.3s ease;
 }
 .nav-resume-btn:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #8A244B !important;
 }
 .nav-menu {
     display: flex;
@@ -1445,5 +1451,64 @@ section {
     
     .container {
         padding: 0 1.5rem;
+    }
+}
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    /* 1. Reduce Logo Size */
+    .logo {
+        font-size: 1.4rem; /* Smaller for mobile */
+    }
+
+    /* 2. Fix Resume Button (No wrapping) */
+    .nav-resume-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+        white-space: nowrap; /* Prevents text from wrapping into 2 lines */
+    }
+
+    /* 3. Create the Hamburger Menu (3 lines) */
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+    .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--primary);
+        border-radius: 2px;
+    }
+
+    /* Hide the actual checkbox */
+    #menu-toggle {
+        display: none;
+    }
+
+    /* Hide the nav menu by default on mobile */
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: var(--white);
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Show the menu when the hamburger (checkbox) is clicked */
+    #menu-toggle:checked ~ .nav-menu {
+        display: flex;
+    }
+}
+
+/* Hide hamburger on Desktop */
+@media (min-width: 769px) {
+    .hamburger, #menu-toggle {
+        display: none;
     }
 }
