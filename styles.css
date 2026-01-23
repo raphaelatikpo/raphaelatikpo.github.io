@@ -1374,11 +1374,21 @@ section {
    RESPONSIVE DESIGN
    =========================== */
 
-/* 1. Ensure checkbox is ALWAYS hidden on all devices */
-#menu-toggle {
-    display: none !important;
-    visibility: hidden;
-    position: absolute;
+/* Keep checkbox accessible for toggling, but visually hidden */
+.hamburger {
+  display: none;
+}
+#menu-toggle{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  opacity: 0;
 }
 
 /* 2. Tablet & Desktop scaling */
@@ -1395,70 +1405,148 @@ section {
 }
 
 /* ===========================
-   FINAL MOBILE NAVIGATION FIX
+   MOBILE FIXES (NAV + LAYOUT)
    =========================== */
 @media (max-width: 768px) {
-    /* 1. Force the container to handle the layout */
-    .nav-container {
-        position: relative !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-    }
 
-    /* 2. Fix the Logo and Resume button height/alignment */
-    .logo {
-        font-size: 1.3rem !important;
-        line-height: 1 !important;
-    }
+  /* Prevent horizontal scroll caused by large grids/cards */
+  body { overflow-x: hidden; }
 
-    .nav-resume-btn {
-        white-space: nowrap !important;
-        padding: 0.3rem 0.7rem !important; 
-        font-size: 0.8rem !important;
-        height: auto !important;
-    }
+  .container,
+  .nav-container {
+    padding: 0 1.25rem;
+  }
 
-    /* 3. ENSURE HAMBURGER LINES ARE VISIBLE */
-    .hamburger {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 5px !important;
-        cursor: pointer !important;
-        z-index: 1002 !important;
-        width: 25px !important;
-    }
+  /* NAV LAYOUT */
+  .nav-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
 
-    .hamburger span {
-        display: block !important;
-        width: 25px !important;
-        height: 3px !important;
-        background-color: var(--primary) !important; /* This makes it Raspberry Red */
-        border-radius: 3px !important;
-    }
+  /* Brand group should not force overflow */
+  .brand-group {
+    gap: 0.75rem;
+    min-width: 0;
+  }
 
-    /* 4. HIDE THE DEFAULT NAV MENU */
-    .nav-menu {
-        display: none !important; /* This hides Home, About, etc. */
-        position: absolute !important;
-        top: 100% !important;
-        right: 0 !important;
-        width: 180px !important;
-        background-color: var(--white) !important;
-        flex-direction: column !important;
-        padding: 1.5rem !important;
-        box-shadow: -5px 5px 15px rgba(0,0,0,0.1) !important;
-        z-index: 1001 !important;
-        gap: 1rem !important;
-    }
+  .logo {
+    font-size: 1.25rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
 
-    /* 5. SHOW MENU ONLY WHEN CLICKED */
-    #menu-toggle:checked ~ .nav-menu {
-        display: flex !important;
-    }
+  .nav-resume-btn {
+    white-space: nowrap;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+  }
 
-    .nav-menu li {
-        margin: 0 !important;
-        text-align: right !important;
-    }
+  /* Show hamburger on mobile */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1002;
+    width: 28px;
+    flex-shrink: 0;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background-color: var(--primary);
+    border-radius: 3px;
+  }
+
+  /* Hide menu by default on mobile */
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: min(220px, 85vw);
+    background-color: var(--white);
+    flex-direction: column;
+    padding: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    border-radius: 12px;
+    z-index: 1001;
+    gap: 1rem;
+  }
+
+  /* Show when toggled */
+  #menu-toggle:checked ~ .nav-menu {
+    display: flex;
+  }
+
+  .nav-menu li {
+    margin: 0;
+    text-align: right;
+  }
+
+  .nav-menu a {
+    display: inline-block;
+    padding: 0.35rem 0;
+  }
+
+  /* TYPOGRAPHY SCALE (prevents huge headings on phones) */
+  .hero {
+    min-height: auto;
+    padding: 3rem 1.25rem;
+  }
+
+  .hero-title {
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-description {
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 2.1rem;
+  }
+
+  .page-title,
+  .report-title {
+    font-size: 2.2rem;
+  }
+
+  /* FIX MOBILE OVERFLOW: grids must become 1 column */
+  .projects-preview,
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Reduce heavy card padding a bit */
+  .project-preview-content,
+  .portfolio-content,
+  .contact-info-panel,
+  .contact-form-panel,
+  .report-main {
+    padding: 1.5rem;
+  }
+
+  /* Timeline: tighten left spacing for small screens */
+  .timeline::before {
+    left: 18px;
+  }
+
+  .timeline-item {
+    padding-left: 55px;
+  }
+
+  .timeline-dot {
+    left: 8px;
+    width: 18px;
+    height: 18px;
+  }
 }
+
