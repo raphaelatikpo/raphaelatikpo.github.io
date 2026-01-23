@@ -122,7 +122,7 @@ img {
 .nav-resume-btn {
     background-color: var(--primary);
     color: var(--white) !important;
-    padding: 0.3rem 1rem; /* Reduced first number = smaller height */
+    padding: 0.25rem 0.90rem; /* Reduced first number = smaller height */
     border-radius: 5px;
     text-decoration: none;
     font-size: 0.9rem;
