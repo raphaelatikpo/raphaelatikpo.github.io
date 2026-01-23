@@ -1482,11 +1482,6 @@ section {
         border-radius: 2px;
     }
 
-    /* Hide the actual checkbox */
-    #menu-toggle {
-        display: none;
-    }
-
     /* Hide the nav menu by default on mobile */
     .nav-menu {
         display: none;
@@ -1500,10 +1495,24 @@ section {
         box-shadow: 0 5px 10px rgba(0,0,0,0.1);
     }
 
-    /* Show the menu when the hamburger (checkbox) is clicked */
-    #menu-toggle {
-       display: none !important;
-    }
+    /* Hide checkbox visually but keep it functional */
+#menu-toggle{
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        opacity: 0;
+   }
+   
+   /* Show the menu when the hamburger is clicked */
+#menu-toggle:checked ~ .nav-menu{
+        display: flex;
+   }
 }
 
 /* Hide hamburger on Desktop */
