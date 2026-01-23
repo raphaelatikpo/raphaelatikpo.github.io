@@ -1516,8 +1516,9 @@ section {
     opacity: 0;
   }
 
-  #menu-toggle:checked ~ .nav-menu{
-    display: flex;
-  }
+  #menu-toggle:checked ~ .nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
