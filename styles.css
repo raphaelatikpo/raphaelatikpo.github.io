@@ -1394,76 +1394,71 @@ section {
     }
 }
 
-/* 3. MOBILE FIX (The core solution) */
+/* ===========================
+   FINAL MOBILE NAVIGATION FIX
+   =========================== */
 @media (max-width: 768px) {
-    /* Container setup for absolute positioning */
+    /* 1. Force the container to handle the layout */
     .nav-container {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        position: relative !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
     }
 
-    /* Logo & Resume Button sizing to match height */
+    /* 2. Fix the Logo and Resume button height/alignment */
     .logo {
-        font-size: 1.4rem;
-        line-height: 1;
+        font-size: 1.3rem !important;
+        line-height: 1 !important;
     }
 
     .nav-resume-btn {
         white-space: nowrap !important;
-        padding: 0.3rem 0.7rem !important; /* Forces height to match RNA */
-        font-size: 0.8rem;
+        padding: 0.3rem 0.7rem !important; 
+        font-size: 0.8rem !important;
+        height: auto !important;
     }
 
-    /* THE FLOATING MENU: Fixes the white space gap */
+    /* 3. ENSURE HAMBURGER LINES ARE VISIBLE */
+    .hamburger {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 5px !important;
+        cursor: pointer !important;
+        z-index: 1002 !important;
+        width: 25px !important;
+    }
+
+    .hamburger span {
+        display: block !important;
+        width: 25px !important;
+        height: 3px !important;
+        background-color: var(--primary) !important; /* This makes it Raspberry Red */
+        border-radius: 3px !important;
+    }
+
+    /* 4. HIDE THE DEFAULT NAV MENU */
     .nav-menu {
-        display: none !important; /* Hidden by default */
-        position: absolute;
-        top: 100%;             /* Hangs off the bottom of the navbar */
-        right: 0;
-        width: 180px;
-        background-color: var(--white);
-        flex-direction: column;
-        padding: 1.5rem;
-        box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
-        z-index: 1100;         /* High number to sit ON TOP of content */
-        gap: 1.5rem;
-        border-radius: 0 0 0 8px;
+        display: none !important; /* This hides Home, About, etc. */
+        position: absolute !important;
+        top: 100% !important;
+        right: 0 !important;
+        width: 180px !important;
+        background-color: var(--white) !important;
+        flex-direction: column !important;
+        padding: 1.5rem !important;
+        box-shadow: -5px 5px 15px rgba(0,0,0,0.1) !important;
+        z-index: 1001 !important;
+        gap: 1rem !important;
     }
 
-    /* Trigger logic: Show menu when checkbox is checked */
+    /* 5. SHOW MENU ONLY WHEN CLICKED */
     #menu-toggle:checked ~ .nav-menu {
         display: flex !important;
     }
 
     .nav-menu li {
-        margin: 0;
-        text-align: right;
+        margin: 0 !important;
+        text-align: right !important;
     }
-
-    /* Restore visibility of the 3 lines (Hamburger) */
-    .hamburger {
-          display: flex !important;
-          flex-direction: column;
-          justify-content: center;
-          gap: 5px;
-          cursor: pointer;
-          width: 30px;  /* Defined width */
-          height: 25px; /* Defined height */
-          z-index: 1200;
-    }
-
-    .hamburger span {
-          display: block !important; /* Forces the line to exist */
-          width: 100%;               /* Takes full width of the 30px parent */
-          height: 3px;               /* Thickness of the line */
-          background-color: #dd2d4a; /* Using your --primary raspberry color */
-          border-radius: 3px;
-          transition: 0.3s;
-    }
-
-    /* Mobile Typography Adjustments */
-    .hero-title { font-size: 2.3rem; }
-    .btn { width: 100%; }
 }
