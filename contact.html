@@ -9,6 +9,53 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  (function () {
+    var fired = false;
+
+    function pushLead() {
+      if (fired) return;
+      fired = true;
+      window.dataLayer.push({ event: "hs_form_success" });
+    }
+
+    window.addEventListener("message", function (event) {
+      // Accept messages only from HubSpot form domains
+      var originOk =
+        event.origin === "https://js-eu1.hsforms.net" ||
+        event.origin === "https://forms-eu1.hubspot.com" ||
+        event.origin === "https://app-eu1.hubspot.com";
+
+      if (!originOk) return;
+
+      var data = event.data;
+
+      // Data might be an object or a JSON string
+      try {
+        if (typeof data === "string") data = JSON.parse(data);
+      } catch (e) {}
+
+      // Heuristic: trigger on HubSpot "submitted" style messages
+      // (different HubSpot embeds send slightly different payloads)
+      var asText = "";
+      try { asText = JSON.stringify(data).toLowerCase(); } catch (e) {}
+
+      if (
+        asText.includes("submitted") ||
+        asText.includes("formsubmit") ||
+        asText.includes("onformsubmitted") ||
+        asText.includes("form_submitted") ||
+        asText.includes("submission")
+      ) {
+        pushLead();
+      }
+    });
+  })();
+</script>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
