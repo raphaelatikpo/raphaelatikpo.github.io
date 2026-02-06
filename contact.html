@@ -17,29 +17,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <script>
-(function () {
   function getParam(name) {
-    const url = new URL(window.location.href);
-    return url.searchParams.get(name) || '';
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name) || "";
   }
 
-  function setField(name, value) {
-    const field = document.querySelector('input[name="' + name + '"]');
-    if (field && value) {
-      field.value = value;
+  function fillUtmFields(form) {
+    const mappings = {
+      utm_source: getParam("utm_source"),
+      utm_medium: getParam("utm_medium"),
+      utm_campaign: getParam("utm_campaign"),
+      utm_content: getParam("utm_content"),
+      utm_term: getParam("utm_term"),
+      landing_page: window.location.href,
+      referrer: document.referrer
+    };
+
+    Object.keys(mappings).forEach(function (key) {
+      const input = form.querySelector('input[name="' + key + '"]');
+      if (input && mappings[key]) {
+        input.value = mappings[key];
+      }
+    });
+  }
+
+  // Wait for HubSpot forms API
+  window.addEventListener("message", function (event) {
+    if (!event.data || typeof event.data !== "object") return;
+
+    if (event.data.type === "hsFormCallback" && event.data.eventName === "onFormReady") {
+      const forms = document.querySelectorAll("form");
+      forms.forEach(fillUtmFields);
     }
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    setField("utm_source", getParam("utm_source"));
-    setField("utm_medium", getParam("utm_medium"));
-    setField("utm_campaign", getParam("utm_campaign"));
-    setField("utm_content", getParam("utm_content"));
-    setField("utm_term", getParam("utm_term"));
-    setField("landing_page", window.location.href);
-    setField("referrer", document.referrer);
   });
-})();
 </script>
 
 <body>
