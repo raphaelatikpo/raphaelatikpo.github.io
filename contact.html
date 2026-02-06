@@ -16,51 +16,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <script>
-  window.dataLayer = window.dataLayer || [];
+(function () {
+  function getParam(name) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name) || '';
+  }
 
-  (function () {
-    var fired = false;
-
-    function pushLead() {
-      if (fired) return;
-      fired = true;
-      window.dataLayer.push({ event: "hs_form_success" });
+  function setField(name, value) {
+    const field = document.querySelector('input[name="' + name + '"]');
+    if (field && value) {
+      field.value = value;
     }
+  }
 
-    window.addEventListener("message", function (event) {
-      // Accept messages only from HubSpot form domains
-      var originOk =
-        event.origin === "https://js-eu1.hsforms.net" ||
-        event.origin === "https://forms-eu1.hubspot.com" ||
-        event.origin === "https://app-eu1.hubspot.com";
-
-      if (!originOk) return;
-
-      var data = event.data;
-
-      // Data might be an object or a JSON string
-      try {
-        if (typeof data === "string") data = JSON.parse(data);
-      } catch (e) {}
-
-      // Heuristic: trigger on HubSpot "submitted" style messages
-      // (different HubSpot embeds send slightly different payloads)
-      var asText = "";
-      try { asText = JSON.stringify(data).toLowerCase(); } catch (e) {}
-
-      if (
-        asText.includes("submitted") ||
-        asText.includes("formsubmit") ||
-        asText.includes("onformsubmitted") ||
-        asText.includes("form_submitted") ||
-        asText.includes("submission")
-      ) {
-        pushLead();
-      }
-    });
-  })();
+  document.addEventListener("DOMContentLoaded", function () {
+    setField("utm_source", getParam("utm_source"));
+    setField("utm_medium", getParam("utm_medium"));
+    setField("utm_campaign", getParam("utm_campaign"));
+    setField("utm_content", getParam("utm_content"));
+    setField("utm_term", getParam("utm_term"));
+    setField("landing_page", window.location.href);
+    setField("referrer", document.referrer);
+  });
+})();
 </script>
 
 <body>
