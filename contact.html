@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <script>
+(function () {
   function getParam(name) {
     const params = new URLSearchParams(window.location.search);
     return params.get(name) || "";
@@ -34,22 +35,32 @@
     };
 
     Object.keys(mappings).forEach(function (key) {
-      const input = form.querySelector('input[name="' + key + '"]');
-      if (input && mappings[key]) {
-        input.value = mappings[key];
-      }
+      const el = form.querySelector('[name="' + key + '"]');
+      if (el && mappings[key]) el.value = mappings[key];
     });
   }
 
-  // Wait for HubSpot forms API
-  window.addEventListener("message", function (event) {
-    if (!event.data || typeof event.data !== "object") return;
+  function fillHubSpotForms() {
+    document.querySelectorAll("form.hs-form").forEach(fillUtmFields);
+  }
 
-    if (event.data.type === "hsFormCallback" && event.data.eventName === "onFormReady") {
-      const forms = document.querySelectorAll("form");
-      forms.forEach(fillUtmFields);
+  window.addEventListener("message", function (event) {
+    let data = event.data;
+
+    // HubSpot sometimes sends JSON strings
+    if (typeof data === "string") {
+      try { data = JSON.parse(data); } catch (e) { return; }
+    }
+    if (!data || typeof data !== "object") return;
+
+    if (data.type === "hsFormCallback" && data.eventName === "onFormReady") {
+      fillHubSpotForms();
     }
   });
+
+  // fallback: if callback doesn't fire, still try once after a short delay
+  setTimeout(fillHubSpotForms, 1500);
+})();
 </script>
 
 <body>
