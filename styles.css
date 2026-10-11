@@ -3,26 +3,35 @@
    =========================== */
 
 :root {
-    /* Color Palette */
-    --raspberry: #dd2d4a;
-    --carrot-orange: #e89005;
-    --baltic-blue: #41658a;
-    --crushed-berry: #880d1e;
-    --frosted-mint: #dceed1;
-    --golden-apricot: #df9a57;
-    --hunter-green: #436436;
-    
+    /* ===========================
+       Color Palette — "Sage & Studio"
+       Built from your preferred greens (#5C7057 → #D1EDD3) and
+       deliberately bridged to the case-study report's palette
+       (signal teal #2E6F6B, flag rust #9C5A2E, ink #182524) so the
+       portfolio and the project reports read as one system.
+       Variable NAMES are kept as-is so nothing else in this file,
+       or any other page using this stylesheet, needs to change.
+       =========================== */
+    --raspberry: #5C7057;       /* PRIMARY — your deep sage */
+    --carrot-orange: #9C5A2E;   /* ACCENT — warm rust, echoes the report's --flag */
+    --baltic-blue: #2E6F6B;     /* SECONDARY — deep teal, echoes the report's --signal */
+    --crushed-berry: #1E2B1C;   /* DARK/INK — near-black green, echoes the report's --ink */
+    --frosted-mint: #D1EDD3;    /* LIGHT — your palest mint, tinted backgrounds & pills */
+    --golden-apricot: #C9A66B;  /* reserved warm accent (not currently used below) */
+    --hunter-green: #3B4F35;    /* deep moss — text on mint pills/badges */
+
     /* Functional Colors */
     --primary: var(--raspberry);
     --secondary: var(--baltic-blue);
     --accent: var(--carrot-orange);
     --dark: var(--crushed-berry);
     --light: var(--frosted-mint);
-    --text-dark: #2a2a2a;
-    --text-light: #666;
+    --text-dark: #273425;
+    --text-light: #5E6B5C;
     --white: #ffffff;
-    --background: #fafafa;
-    
+    --background: #F6F9F4;
+    --primary-rgb: 92, 112, 87; /* for rgba() glows tied to --primary */
+
     /* Typography */
     --font-headline: 'Lora', serif;
     --font-body: 'Inter', sans-serif;
@@ -112,7 +121,7 @@ img {
 }
 
 .logo:hover {
-    color: #8A244B !important;
+    color: #46593F !important; /* darker sage, hover-state of --primary */
 }
 .brand-group {
     display: flex;
@@ -134,7 +143,7 @@ img {
     transition: 0.3s ease;
 }
 .nav-resume-btn:hover {
-    background-color: #8A244B !important;
+    background-color: #46593F !important; /* darker sage, hover-state of --primary */
 }
 .nav-menu {
     display: flex;
@@ -300,7 +309,7 @@ img {
     background-color: var(--crushed-berry);
     border-color: var(--crushed-berry);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(221, 45, 74, 0.3);
+    box-shadow: 0 5px 15px rgba(var(--primary-rgb), 0.3);
 }
 
 .btn-secondary {
@@ -916,7 +925,7 @@ section {
 .form-group textarea {
     width: 100%;
     padding: 0.9rem;
-    border: 2px solid #e0e0e0;
+    border: 2px solid #DCE5D8;
     border-radius: 8px;
     font-family: var(--font-body);
     font-size: 1rem;
@@ -1250,7 +1259,7 @@ section {
 .project-navigation {
     background-color: var(--white);
     padding: 2rem 0;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #DCE5D8;
 }
 
 .nav-center {
@@ -1528,4 +1537,3 @@ section {
     display: none !important;
   }
 }
-
