@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zero-Touch Marketing Operations Reporting Pipeline | Raphael Napoleon Atikpo</title>
+<meta name="description" content="A planned weekly Make.com pipeline that pulls GA4 and HubSpot data into a historical log, feeds Project 3's dashboard, and sends a rule-based executive digest — designed on a $0 budget, not yet built.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFF1EC;
+    --card:#FBFBF9;
+    --ink:#182524;
+    --ink-soft:#4B5A58;
+    --ink-faint:#7C8A87;
+    --signal:#2E6F6B;
+    --signal-soft:#E4EDEC;
+    --flag:#9C5A2E;
+    --flag-soft:#F3E9E0;
+    --line:#D7DAD3;
+    --serif:'Fraunces', serif;
+    --sans:'IBM Plex Sans', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+    --max: 760px;
+    --wide: 980px;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:17px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:var(--signal); text-decoration-thickness:1px; text-underline-offset:2px; }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--signal); outline-offset:3px; }
+  h1,h2,h3{ font-family:var(--serif); color:var(--ink); margin:0; font-weight:600; letter-spacing:-0.01em; }
+  code, .mono{ font-family:var(--mono); font-size:0.88em; background:var(--signal-soft); color:var(--signal); padding:0.12em 0.4em; border-radius:3px; }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+  .wrap-wide{ max-width:var(--wide); margin:0 auto; padding:0 24px; }
+
+  .topnav{ border-bottom:1px solid var(--line); background:var(--paper); position:relative; z-index:5; }
+  .topnav-inner{ max-width:var(--wide); margin:0 auto; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+  .brand{ font-family:var(--serif); font-weight:600; font-size:1.05rem; color:var(--ink); text-decoration:none; }
+  .navlinks{ display:flex; font-size:0.92rem; flex-wrap:wrap; }
+  .navlinks a{ color:var(--ink-soft); text-decoration:none; margin-left:22px; }
+  .navlinks a:first-child{ margin-left:0; }
+  .navlinks a:hover{ color:var(--signal); }
+
+  .hero{ padding:64px 0 40px; }
+  .kicker{ font-size:0.92rem; color:var(--ink-faint); margin-bottom:14px; }
+  .kicker strong{ color:var(--ink-soft); font-weight:600; }
+  h1.title{ font-size:clamp(2.1rem, 4.4vw, 3.1rem); line-height:1.12; max-width:17ch; }
+  .lede{ margin-top:20px; font-size:1.15rem; color:var(--ink-soft); max-width:56ch; line-height:1.6; }
+
+  .cta-row{ display:flex; gap:12px; margin-top:32px; flex-wrap:wrap; }
+  .btn{ font-family:var(--sans); font-weight:500; font-size:0.94rem; padding:11px 20px; border-radius:5px; text-decoration:none; display:inline-block; border:1px solid transparent; }
+  .btn-primary{ background:var(--ink); color:var(--paper); }
+  .btn-primary:hover{ background:#0e1817; }
+  .btn-secondary{ background:transparent; color:var(--ink); border-color:var(--line); }
+  .btn-secondary:hover{ border-color:var(--ink-soft); }
+
+  .pipeline{ margin-top:52px; }
+  .pipeline-row{ display:flex; align-items:center; flex-wrap:wrap; gap:0; }
+  .node{ font-family:var(--mono); font-size:0.82rem; background:var(--card); border:1px solid var(--line); color:var(--ink); padding:9px 14px; border-radius:4px; white-space:nowrap; }
+  .arrow{ color:var(--ink-faint); font-size:1rem; padding:0 8px; }
+  .pipeline-caption{ margin-top:14px; font-size:0.86rem; color:var(--ink-faint); }
+
+  .stats{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:56px; }
+  .stats-row{ max-width:var(--wide); margin:0 auto; padding:30px 24px; display:flex; flex-wrap:wrap; }
+  .stat{ min-width:150px; margin-right:36px; margin-bottom:10px; }
+  .stat-num{ font-family:var(--serif); font-size:2rem; font-weight:600; color:var(--signal); }
+  .stat-label{ font-size:0.86rem; color:var(--ink-soft); margin-top:2px; }
+
+  section.block{ padding:56px 0; border-bottom:1px solid var(--line); }
+  section.block:last-of-type{ border-bottom:none; }
+  h2.h{ font-size:1.55rem; margin-bottom:20px; }
+  h3.sub{ font-family:var(--sans); font-weight:600; font-size:1rem; color:var(--ink); margin:26px 0 8px; }
+  p{ margin:0 0 14px; color:var(--ink); }
+  p.soft{ color:var(--ink-soft); }
+  ul.plain{ margin:0 0 14px; padding-left:20px; }
+  ul.plain li{ margin-bottom:8px; }
+
+  .tracks{ display:flex; gap:18px; margin:20px 0 8px; flex-wrap:wrap; }
+  .track{ flex:1 1 260px; border:1px solid var(--line); background:var(--card); border-radius:6px; padding:18px 20px; }
+  .track h4{ font-family:var(--sans); font-size:0.86rem; font-weight:600; color:var(--ink-faint); margin:0 0 8px; }
+  .track p{ font-size:0.94rem; margin:0; }
+
+  .badges{ display:flex; flex-wrap:wrap; gap:9px; margin-top:6px; }
+  .badge{ font-size:0.85rem; border:1px solid var(--line); background:var(--card); color:var(--ink-soft); padding:6px 13px; border-radius:999px; }
+
+  .impl-item{ border-left:2px solid var(--signal); padding:2px 0 2px 18px; margin-bottom:26px; }
+  .impl-item h3{ font-family:var(--sans); font-weight:600; font-size:1.02rem; margin-bottom:6px; }
+  .impl-item p{ font-size:0.96rem; margin:0 0 10px; color:var(--ink-soft); }
+
+  .fail-list{ margin:18px 0; padding:0; list-style:none; }
+  .fail-list li{ display:flex; gap:14px; padding:13px 0; border-top:1px solid var(--line); }
+  .fail-list li:last-child{ border-bottom:1px solid var(--line); }
+  .fail-num{ font-family:var(--mono); font-size:0.82rem; color:var(--ink-faint); padding-top:2px; min-width:20px; }
+  .fail-text{ font-size:0.95rem; }
+  .fail-text b{ font-weight:600; }
+  .fail-text .blank{ color:var(--ink-faint); font-family:var(--mono); font-size:0.85em; }
+
+  .flag-box{ background:var(--flag-soft); border:1px solid #E4CBB4; border-radius:6px; padding:18px 20px; margin-top:22px; }
+  .flag-box h4{ font-family:var(--sans); font-size:0.86rem; font-weight:600; color:var(--flag); margin:0 0 8px; }
+  .flag-box p{ font-size:0.94rem; margin:0; color:var(--ink); }
+
+  .impact-note{ background:var(--signal-soft); border-left:3px solid var(--signal); padding:14px 18px; border-radius:2px; font-size:0.94rem; margin-bottom:18px; }
+
+  .shot-placeholder{ border:1px dashed var(--line); border-radius:6px; padding:22px 20px; margin:16px 0 26px; background:var(--card); }
+  .shot-placeholder .ph-label{ font-family:var(--mono); font-size:0.76rem; color:var(--signal); display:block; margin-bottom:8px; }
+  .shot-placeholder .ph-body{ font-size:0.92rem; color:var(--ink-soft); margin:0; }
+
+  footer{ padding:40px 0 60px; }
+  .foot-links{ display:flex; flex-wrap:wrap; font-size:0.92rem; margin-bottom:18px; }
+  .foot-links a{ margin-right:20px; }
+  footer .foot-name{ font-family:var(--serif); font-size:1.05rem; margin-bottom:4px; }
+  footer .foot-sub{ color:var(--ink-faint); font-size:0.88rem; }
+
+  @media (max-width: 560px){
+    .hero{ padding:44px 0 30px; }
+    .stats-row{ gap:24px; }
+    section.block{ padding:40px 0; }
+    .arrow{ display:none; }
+    .pipeline-row{ flex-direction:column; align-items:flex-start; gap:8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="https://raphaelatikpo.github.io/">Raphael Napoleon Atikpo</a>
+    <nav class="navlinks">
+      <a href="#architecture">Architecture</a>
+      <a href="#implementation">Build plan</a>
+      <a href="#qa">Verification</a>
+      <a href="#honest">Limitations</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section class="hero wrap-wide">
+    <div class="kicker"><strong>Project 5 of 10</strong> — Marketing Operations &amp; Automation portfolio</div>
+    <h1 class="title">Nobody should have to remember to run the weekly report.</h1>
+    <p class="lede">A Make.com scenario that pulls GA4 and HubSpot every Monday, writes the week to a historical log without duplicating it, and sends a rule-based executive digest — designed to keep Project 3's dashboard alive without anyone touching it, on free tiers only. Fully designed; not yet built.</p>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#architecture">Read the architecture</a>
+      <a class="btn btn-secondary" href="https://raphaelatikpo.github.io/">See all projects</a>
+    </div>
+
+    <div class="pipeline">
+      <div class="pipeline-row">
+        <span class="node">GA4 + HubSpot (API)</span><span class="arrow">→</span>
+        <span class="node">Make.com (weekly)</span><span class="arrow">→</span>
+        <span class="node">Historical Log (Sheets)</span><span class="arrow">→</span>
+        <span class="node">Looker Studio + Digest</span>
+      </div>
+      <div class="pipeline-caption">The planned data path. Phases 0–2 — accounts, schema, connections — are designed click-by-click; Phases 3–11 are roadmapped but not yet built.</div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">phases designed in full</div></div>
+      <div class="stat"><div class="stat-num">12</div><div class="stat-label">phases planned, total</div></div>
+      <div class="stat"><div class="stat-num">~90</div><div class="stat-label">est. credits / month</div></div>
+      <div class="stat"><div class="stat-num">$0</div><div class="stat-label">budget</div></div>
+    </div>
+  </div>
+
+  <section class="block wrap" id="problem">
+    <h2 class="h">The problem</h2>
+    <p>Project 3 turned four systems into one executive dashboard — but a dashboard is only as current as the last time someone manually re-exported and re-pasted the data behind it. Project 4 named this limitation directly: HubSpot's free tier has no Sheets sync, so every update means re-exporting CSVs by hand, and nothing stops that habit from quietly lapsing. This project's brief was to remove the hands entirely: pull the same kind of marketing data on a schedule, log it so trends become visible instead of overwritten each time, and have the system flag a number that looks wrong — rather than wait for someone to notice the dashboard went stale.</p>
+
+    <h3 class="sub">What I set out to build</h3>
+    <ul class="plain">
+      <li>One Make.com scenario, one weekly schedule, zero manual steps after setup — not a snapshot re-exported by hand.</li>
+      <li>A historical log in Google Sheets that updates or skips a given week on re-run, and never creates a duplicate row.</li>
+      <li>Week-over-week deltas computed once, in Sheets formulas, so the dashboard and the digest never disagree about a percentage.</li>
+      <li>A rule-based executive digest — largest positive and negative deltas, no paid AI service — so a stale pipeline becomes an impossible-to-miss failure instead of a silent one.</li>
+      <li>An operations budget worked out in credits against Make's actual free-tier cap, not assumed.</li>
+    </ul>
+  </section>
+
+  <section class="block wrap" id="architecture">
+    <h2 class="h">How the pieces fit together</h2>
+    <p>The system runs as two layers that meet at one place: the Historical Performance Log. One layer pulls and writes; the other reads and reports.</p>
+    <div class="tracks">
+      <div class="track">
+        <h4>Track A — Write layer (Make.com)</h4>
+        <p>One scheduled scenario reads GA4 and HubSpot through their APIs, checks the log for an existing row, and writes or updates it — never appends blindly.</p>
+      </div>
+      <div class="track">
+        <h4>Track B — Read layer (Sheets + Looker Studio)</h4>
+        <p>WoW formulas and digest-ranking logic live in the Sheet, so Looker Studio and the weekly email read the same numbers instead of each recalculating them separately.</p>
+      </div>
+    </div>
+    <p class="soft" style="margin-top:18px;">Five layers, each with one job:</p>
+    <div class="layers" style="margin:22px 0 8px; border:1px solid var(--line); border-radius:6px; overflow:hidden;">
+      <div style="display:flex; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--card); align-items:baseline;"><span style="font-family:var(--mono); font-size:0.78rem; color:var(--signal); min-width:92px;">Layer 1</span><div><b>Sources</b><p style="margin:2px 0 0; font-size:0.94rem; color:var(--ink-soft);">GA4's Data API (sessions, totalUsers, engagementRate, keyEvents by sessionDefaultChannelGroup) and HubSpot's CRM API (contacts, lifecyclestage, deals) — read live through Make, not exported by hand.</p></div></div>
+      <div style="display:flex; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--card); align-items:baseline;"><span style="font-family:var(--mono); font-size:0.78rem; color:var(--signal); min-width:92px;">Layer 2</span><div><b>Pull</b><p style="margin:2px 0 0; font-size:0.94rem; color:var(--ink-soft);">One weekly-scheduled Make.com scenario, built on Make's own OAuth connection rather than a custom Google Cloud project — specifically to avoid a documented weekly-reauthorization trap.</p></div></div>
+      <div style="display:flex; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--card); align-items:baseline;"><span style="font-family:var(--mono); font-size:0.78rem; color:var(--signal); min-width:92px;">Layer 3</span><div><b>Log</b><p style="margin:2px 0 0; font-size:0.94rem; color:var(--ink-soft);">GA4_Weekly_Log and HubSpot_Weekly_Log — wide format, one row per week (per channel, for GA4) — each with a Row_Key formula that makes re-running a week idempotent by design.</p></div></div>
+      <div style="display:flex; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--card); align-items:baseline;"><span style="font-family:var(--mono); font-size:0.78rem; color:var(--signal); min-width:92px;">Layer 4</span><div><b>Report</b><p style="margin:2px 0 0; font-size:0.94rem; color:var(--ink-soft);">The same Sheet feeds Looker Studio's historical trend view and a rule-based Gmail/Slack digest — no second data model to keep in sync.</p></div></div>
+      <div style="display:flex; gap:16px; padding:16px 20px; background:var(--card); align-items:baseline;"><span style="font-family:var(--mono); font-size:0.78rem; color:var(--signal); min-width:92px;">Layer 5</span><div><b>Delivery</b><p style="margin:2px 0 0; font-size:0.94rem; color:var(--ink-soft);">Looker Studio's native scheduled email delivery, plus Make's own digest send — both free-tier features, confirmed against current documentation rather than assumed.</p></div></div>
+    </div>
+
+    <h3 class="sub">Stack</h3>
+    <div class="badges">
+      <span class="badge">GA4 Data API</span>
+      <span class="badge">HubSpot CRM (Free)</span>
+      <span class="badge">Make.com (Free)</span>
+      <span class="badge">Google Sheets</span>
+      <span class="badge">Looker Studio (Free)</span>
+    </div>
+  </section>
+
+  <section class="block wrap" id="implementation">
+    <h2 class="h">The build, phase by phase</h2>
+
+    <div class="impl-item">
+      <h3>Phases 0–2 — designed in full, not yet executed</h3>
+      <p>The first three phases are written click-by-click: confirming GA4 and HubSpot access, designing the Sheet schema, and proving all three Make connections before any real logic gets built. None of it has run in my own accounts yet — this project starts from a complete plan rather than a blank canvas.</p>
+      <div class="shot-placeholder">
+        <span class="ph-label">SCREENSHOT TO CAPTURE — Phase 2</span>
+        <p class="ph-body">Make's three test modules (GA4, HubSpot CRM, Google Sheets) each returning real data on "Run once," before being deleted and rebuilt as the real scenario.</p>
+      </div>
+    </div>
+
+    <div class="impl-item">
+      <h3>GA4 — pulled live, not snapshotted</h3>
+      <p>Unlike Project 4's one-time GA4 export, this pipeline reads GA4's Data API directly every week through Make's "Generate a Report" module, filtered to <code>sessionDefaultChannelGroup</code> so each channel gets its own log row. The trade-off Project 4 avoided by snapshotting — a live connection that can silently break — is handled here with Phase 9's planned failure notifications instead of a human checking in.</p>
+      <div class="shot-placeholder">
+        <span class="ph-label">SCREENSHOT TO CAPTURE — Phase 3</span>
+        <p class="ph-body">The GA4 "Generate a Report" module configured with Property ID, date-range logic, and the channel-group dimension, returning a real weekly bundle.</p>
+      </div>
+    </div>
+
+    <div class="impl-item">
+      <h3>HubSpot — read through Make's API, no CSV step</h3>
+      <p>Project 4's dashboard depends on someone remembering to export and re-import HubSpot CSVs by hand — a limitation it names directly. This pipeline reads the same <code>lifecyclestage</code> and deal data through Make's HubSpot CRM search modules on the same weekly schedule as GA4, removing that manual step entirely.</p>
+      <div class="shot-placeholder">
+        <span class="ph-label">SCREENSHOT TO CAPTURE — Phase 4</span>
+        <p class="ph-body">The HubSpot "Search for Contacts" and "Search for Deals" modules, filtered to the current week, returning real counts.</p>
+      </div>
+    </div>
+
+    <div class="impl-item">
+      <h3>The idempotency key — decided before any code</h3>
+      <p>Each log row carries a <code>Row_Key</code> formula — the week's date joined to its channel on the GA4 tab, the date alone on the HubSpot tab — so Make can check what already exists before writing. Re-running the same week updates or skips it; it never duplicates. Wide format (one row per week per channel) was chosen over long format specifically because it keeps that check to one lookup per tab per run, not one per metric.</p>
+      <div class="shot-placeholder">
+        <span class="ph-label">SCREENSHOT TO CAPTURE — Phase 5 / Phase 10</span>
+        <p class="ph-body">The log after two consecutive runs for the same week: the row count unchanged, <code>Last_Updated_UTC</code> changed.</p>
+      </div>
+    </div>
+
+    <div class="impl-item">
+      <h3>The operations budget — a worked estimate, not a guess</h3>
+      <p>Before writing a single module, I built a credit table against Make's documented pricing: roughly 19–27 credits per run, 82–117 a month in steady state, against the free plan's 1,000-credit cap. The one honest gap: Make's own documentation doesn't say definitively whether its Iterator module bills per row in addition to the module that processes each row — the estimate covers both cases rather than quoting the flattering one.</p>
+    </div>
+
+    <div class="impl-item">
+      <h3>What's left</h3>
+      <p>Phases 3–11 — the GA4 pull, the HubSpot pull, idempotent writes, WoW formulas and digest-ranking logic, the Looker Studio connection, digest delivery, scheduling and error handling, testing, and portfolio evidence capture — are roadmapped with time estimates per phase, not yet executed.</p>
+    </div>
+  </section>
+
+  <section class="block wrap" id="qa">
+    <h2 class="h">What Phase 10 will check</h2>
+    <p>This hasn't been run yet, so this section is the test plan, not test results. These are the checks Phase 10 specifies, with blanks where the real numbers go once it executes.</p>
+
+    <ul class="fail-list">
+      <li><span class="fail-num">1</span><span class="fail-text"><b>No duplicate rows.</b> Run the scenario twice against the same week; confirm the log gains the expected rows once, not twice. <span class="blank">[result: pending]</span></span></li>
+      <li><span class="fail-num">2</span><span class="fail-text"><b>Empty week.</b> Run it against a week GA4 or HubSpot returns nothing for; confirm the scenario skips cleanly rather than writing blank or zero rows that would corrupt the WoW formulas. <span class="blank">[result: pending]</span></span></li>
+      <li><span class="fail-num">3</span><span class="fail-text"><b>Broken connection.</b> Revoke one connection mid-build; confirm Phase 9's failure notification fires instead of the scenario failing silently. <span class="blank">[result: pending]</span></span></li>
+      <li><span class="fail-num">4</span><span class="fail-text"><b>WoW arithmetic.</b> Spot-check one channel's week-over-week delta by hand against the Sheet's formula output. <span class="blank">[result: pending]</span></span></li>
+    </ul>
+
+    <div class="impact-note">
+      <b>On results:</b> nothing above has numbers yet because nothing has run. Once built, this section gets real credit counts from Make's execution history, real row counts from two consecutive runs, and a real screenshot of the digest email — not projections.
+    </div>
+  </section>
+
+  <section class="block wrap" id="honest">
+    <h2 class="h">What I'd tell a hiring manager directly</h2>
+
+    <h3 class="sub">Decisions and reversals</h3>
+    <p>The instructive moments so far were all in the design, not a debugging session — because there's nothing running yet to debug.</p>
+    <ul class="plain">
+      <li>Almost defaulted the GA4 source to the demo account, reasoning a real but near-empty portfolio site would make for thin channel-breakdown rows — reversed that once the actual property turned out to have enough weekly traffic to carry a real comparison.</li>
+      <li>Initially planned to pull both the current and prior week fresh from GA4's API every run, per a literal reading of the brief — then realized the historical log already holds last week's numbers after the first run, so comparing against the stored row instead roughly halves the GA4 credits spent per week.</li>
+      <li>Assumed Looker Studio had a native, free HubSpot connector; confirmed it doesn't — which is the actual reason HubSpot data routes through the same Sheet as GA4 rather than a second, paid connector.</li>
+    </ul>
+
+    <div class="flag-box">
+      <h4>Open at the time of writing</h4>
+      <p>Three things are unresolved because the build hasn't started: whether Make's Iterator module bills credits per row in addition to the write module it feeds (the budget above covers both cases, but I don't yet know which is real); how Phase 7 should connect this Sheet to Project 3's dashboard without disturbing its existing live-GA4 data source; and whether the GA4 demo account would in fact have worked as a Make data source — the real property had enough traffic that the fallback was never tested.</p>
+    </div>
+
+    <h3 class="sub">Limitations</h3>
+    <ul class="plain">
+      <li>Nothing here has run yet. Every number on this page — the ops budget, the schema, the phase count — is a design artifact, not a measurement.</li>
+      <li>Weekly cadence only; between runs, the only fresher view is Looker Studio's optional live GA4 connector, not this pipeline.</li>
+      <li>Idempotency is scoped to one week at a time; a schema change to the log after go-live would still need a manual backfill pass.</li>
+      <li>Built against demo/mock HubSpot data, same as Project 4 — the digest's "wins" and "concerns" will reflect data variety, not real marketing performance, until this runs against a live business.</li>
+    </ul>
+
+    <h3 class="sub">What I'd build next</h3>
+    <ul class="plain">
+      <li>Execute Phases 3–11: the GA4 and HubSpot pulls, idempotent writes, WoW formulas, the Looker Studio connection, digest delivery, scheduling and error handling, and testing.</li>
+      <li>Backfill 8–12 weeks of history so the dashboard and digest have a real trend to show, not a single data point.</li>
+      <li>Replace the estimated credit table in this page with Make's actual execution-history numbers after the first few live runs.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="foot-name">Raphael Napoleon Atikpo</div>
+  <div class="foot-sub" style="margin-bottom:18px;">Marketing Operations &amp; Automation — Project 5 of 10</div>
+  <div class="foot-links">
+    <a href="https://raphaelatikpo.github.io/">← All projects</a>
+    <a href="#REPLACE-WITH-YOUR-LOOKER-STUDIO-PUBLIC-LINK">Dashboard (once built)</a>
+  </div>
+</footer>
+
+</body>
+</html>
