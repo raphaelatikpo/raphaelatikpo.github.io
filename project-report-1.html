@@ -135,6 +135,19 @@
     section.block{ padding:40px 0; }
     .arrow{ display:none; }
     .pipeline-row{ flex-direction:column; align-items:flex-start; gap:8px; }
+
+    /* Screenshots of dense desktop UI (tables, dashboards) go illegible
+       once squeezed to width:100% of a phone screen. Instead of shrinking
+       them, hold them at a legible, near-desktop width and let them
+       scroll horizontally inside their frame. */
+    figure.shot{
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    figure.shot img{
+      width: calc(var(--max) - 48px); /* matches the desktop reading width, so text is just as legible */
+      max-width: none;
+    }
   }
 </style>
 </head>
