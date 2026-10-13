@@ -129,13 +129,258 @@
   footer .foot-name{ font-family:var(--serif); font-size:1.05rem; margin-bottom:4px; }
   footer .foot-sub{ color:var(--ink-faint); font-size:0.88rem; }
 
-  @media (max-width: 560px){
-    .hero{ padding:44px 0 30px; }
-    .stats-row{ gap:24px; }
-    section.block{ padding:40px 0; }
-    .arrow{ display:none; }
-    .pipeline-row{ flex-direction:column; align-items:flex-start; gap:8px; }
-  }
+ ```css
+/* ==============================
+   MOBILE RESPONSIVE DESIGN
+   ============================== */
+@media (max-width: 560px) {
+
+    /* Prevent horizontal overflow */
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: clip;
+    }
+
+    /* Main page containers */
+    .wrap,
+    .wrap-wide {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    /* Navigation */
+    .topnav-inner {
+        padding: 16px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .brand {
+        font-size: 1rem;
+    }
+
+    .navlinks {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 8px 16px;
+        font-size: 0.88rem;
+    }
+
+    .navlinks a {
+        margin-left: 0;
+    }
+
+    /* Hero section */
+    .hero {
+        padding: 38px 0 28px;
+    }
+
+    .kicker {
+        font-size: 0.82rem;
+        line-height: 1.6;
+        margin-bottom: 16px;
+        overflow-wrap: anywhere;
+    }
+
+    h1.title {
+        font-size: clamp(2rem, 7.5vw, 2.65rem);
+        line-height: 1.12;
+        max-width: 100%;
+        letter-spacing: -0.025em;
+        overflow-wrap: break-word;
+    }
+
+    .lede {
+        margin-top: 18px;
+        font-size: 1.05rem;
+        line-height: 1.65;
+        max-width: 100%;
+    }
+
+    /* Action buttons */
+    .cta-row {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-top: 24px;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 12px 16px;
+        text-align: center;
+        font-size: 0.92rem;
+        overflow-wrap: anywhere;
+    }
+
+    /* Technology pipeline */
+    .pipeline {
+        margin-top: 32px;
+    }
+
+    .pipeline-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .node {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        font-size: 0.78rem;
+        padding: 8px 12px;
+    }
+
+    .arrow {
+        display: none;
+    }
+
+    .pipeline-caption {
+        font-size: 0.82rem;
+        line-height: 1.6;
+    }
+
+    /* Statistics */
+    .stats {
+        margin-top: 32px;
+    }
+
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 14px;
+        padding: 24px 20px;
+    }
+
+    .stat {
+        min-width: 0;
+        margin: 0;
+    }
+
+    .stat-num {
+        font-size: 1.7rem;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+        line-height: 1.5;
+    }
+
+    /* Content sections */
+    section.block {
+        padding: 36px 0;
+    }
+
+    h2.h {
+        font-size: 1.4rem;
+        line-height: 1.25;
+        margin-bottom: 16px;
+    }
+
+    h3.sub {
+        margin-top: 22px;
+        font-size: 0.98rem;
+    }
+
+    p {
+        overflow-wrap: break-word;
+    }
+
+    /* Side-by-side cards become stacked cards */
+    .tracks {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .track {
+        flex: 1 1 100%;
+        min-width: 0;
+        padding: 16px;
+    }
+
+    /* Technology badges */
+    .badges {
+        gap: 8px;
+    }
+
+    .badge {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+
+    /* Implementation and troubleshooting lists */
+    .impl-item {
+        padding-left: 14px;
+        margin-bottom: 24px;
+    }
+
+    .fail-list li {
+        gap: 10px;
+    }
+
+    .fail-text {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    /* Screenshots and diagrams */
+    figure.shot img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Footer */
+    footer {
+        padding: 32px 0 44px;
+    }
+
+    .foot-links {
+        gap: 10px 16px;
+    }
+
+    .foot-links a {
+        margin-right: 0;
+    }
+}
+
+/* Extra-small phones */
+@media (max-width: 360px) {
+    .wrap,
+    .wrap-wide {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .topnav-inner {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    h1.title {
+        font-size: 1.9rem;
+    }
+    .stats-row {
+        padding-left: 16px;
+        padding-right: 16px;
+        gap: 18px 10px;
+    }
+    .stat-num {
+        font-size: 1.5rem;
+    }
+}
+
 </style>
 </head>
 <body>
