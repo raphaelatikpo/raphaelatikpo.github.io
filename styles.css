@@ -1551,12 +1551,10 @@ section {
     background: #e8efeb;
 }
 
-.project-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
+.project-card img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .project-preview-image:hover .project-image {
