@@ -453,11 +453,32 @@ section {
 }
 
 .project-preview-image {
-    height: 250px;
+    /* Default: no real <img> yet, just the gradient + placeholder label */
+    min-height: 250px;
     background: linear-gradient(135deg, var(--primary), var(--accent));
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+}
+
+/* Once a real screenshot is dropped in, let the frame hug the image's own
+   aspect ratio instead of forcing it into a fixed-height box. This is what
+   keeps the image full/uncropped without leaving empty space above/below it. */
+.project-preview-image:has(img) {
+    min-height: 0;
+    background: #e8efeb; /* subtle fallback color while the image loads */
+}
+
+.project-preview-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.project-preview-image:hover img {
+    transform: scale(1.04);
 }
 
 .preview-placeholder {
@@ -763,12 +784,32 @@ section {
 }
 
 .portfolio-image {
-    height: 260px;
+    /* Default: no real <img> yet, just the gradient + placeholder label */
+    min-height: 260px;
     background: linear-gradient(135deg, var(--secondary), var(--primary));
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden;
+}
+
+/* Same fix as .project-preview-image: let the frame hug a real image's
+   own aspect ratio instead of forcing a fixed height around it. */
+.portfolio-image:has(img) {
+    min-height: 0;
+    background: #e8efeb;
+}
+
+.portfolio-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.portfolio-image:hover img {
+    transform: scale(1.04);
 }
 
 .image-placeholder {
@@ -1543,22 +1584,13 @@ section {
 }
 }
 
-.project-preview-image {
-    width: 100%;
-    height: 310px;
-    overflow: hidden;
-    border-radius: 12px;
-    background: #e8efeb;
-}
-
+/* Safety net: in case a card's image sits directly under .project-card
+   rather than inside .project-preview-image, size it the same way. */
 .project-card img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.project-preview-image:hover .project-image {
-    transform: scale(1.04);
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.4s ease;
 }
 
    /* Hide checkbox on desktop */
